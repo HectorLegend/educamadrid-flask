@@ -1,2 +1,2 @@
-#!/bin/bash
-gunicorn servidor:app --bind 0.0.0.0:$PORT
+python Servidor.py
+pause
